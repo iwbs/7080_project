@@ -14,7 +14,7 @@ ava_bal = const.CAPITAL
 reserve = const.CAPITAL * const.RESERVE_RATIO
 trans_log = pd.DataFrame(columns=['date', 'position_id' ,'name', 'price', 'qty', 'type', 'initial_margin', 'cost', 'net_profit'])
 portfolio = pd.DataFrame(columns=['id', 'name', 'order_price', 'market_price', 'qty', 'type', 'profit'])
-
+pd.set_option('display.max_rows', None)
 
 
 # Donchian Channel
