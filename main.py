@@ -273,6 +273,8 @@ for d_index, d_row in df.loc[testData].iterrows():
         
 print('Available balance:')
 print(ava_bal)
+print('Profit:')
+print(ava_bal - const.CAPITAL)
 print('Transaction log:')
 print(trans_log)
 
