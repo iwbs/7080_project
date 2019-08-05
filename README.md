@@ -17,7 +17,9 @@
 
 ## How to run
 py getMarketData.py for getting market data
+
 py main.py for main program
+
 change strat_donchian_macd to strat_macd for comparision
 
 ## Strategy
