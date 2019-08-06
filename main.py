@@ -170,11 +170,14 @@ def strat_donchian_macd(df, df_next, d_index, d_row):
 
     # last trading day
     if d_row['DATE'] == last_trade_date:
+        portfolio_copy = portfolio.copy()
+        # close all positions
         for p_index, p_row in portfolio.iterrows():
-            # close and renew all positions
             price = d_row['close']
             closePosition(p_index, price, d_row['DATE'])
 
+        # reopen all positions
+        for p_index, p_row in portfolio_copy.iterrows():
             if d_row['DATE'] < pd.to_datetime(const.TEST_END_DATE):
                 qty = p_row['qty']
                 price = (df_next.loc[d_index, 'high'] + df_next.loc[d_index, 'low']) / 2
@@ -224,17 +227,21 @@ def strat_macd(df, df_next, d_index, d_row):
 
     # last trading day
     if d_row['DATE'] == last_trade_date:
+        portfolio_copy = portfolio.copy()
+        # close all positions
         for p_index, p_row in portfolio.iterrows():
-            # close and renew all positions
             price = d_row['close']
             closePosition(p_index, price, d_row['DATE'])
 
+        # reopen all positions
+        for p_index, p_row in portfolio_copy.iterrows():
             if d_row['DATE'] < pd.to_datetime(const.TEST_END_DATE):
                 qty = p_row['qty']
                 price = (df_next.loc[d_index, 'high'] + df_next.loc[d_index, 'low']) / 2
                 date = d_row['DATE']
                 name = 'HSI ' + (date + relativedelta(months=+1)).strftime('(%b %Y)')
                 openPosition(name, price, qty, p_row['type'], date)
+
 
 
 
@@ -277,6 +284,7 @@ print('Profit:')
 print(ava_bal - const.CAPITAL)
 print('Transaction log:')
 print(trans_log)
+
 
 
 # plot graph
