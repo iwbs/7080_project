@@ -113,14 +113,14 @@ def closePosition(portfolio_id, price, date):
     portfolio = portfolio.drop(portfolio_id)
 
 
-def plotGraph(df):
+def plotGraph(df, testData):
     fig, axes = plt.subplots(nrows=2, sharex=True)
-    axes[0].plot(df['DATE'], df['close'], label='Close')
-    axes[0].plot(df['DATE'], df['DC_HIGH'], label='DC_High')
-    axes[0].plot(df['DATE'], df['DC_LOW'], label='DC_Low')
+    axes[0].plot(df.loc[testData, 'DATE'], df.loc[testData, 'close'], label='Close')
+    axes[0].plot(df.loc[testData, 'DATE'], df.loc[testData, 'DC_HIGH'], label='DC_High')
+    axes[0].plot(df.loc[testData, 'DATE'], df.loc[testData, 'DC_LOW'], label='DC_Low')
     axes[0].legend()
-    axes[1].plot(df['DATE'], df['MACD'], label='MACD', color='red')
-    axes[1].plot(df['DATE'], df['SIGNAL'], label='Signal', color='blue')
+    axes[1].plot(df.loc[testData, 'DATE'], df.loc[testData, 'MACD'], label='MACD', color='red')
+    axes[1].plot(df.loc[testData, 'DATE'], df.loc[testData, 'SIGNAL'], label='Signal', color='blue')
     axes[1].legend()
     plt.show()
     
@@ -280,4 +280,4 @@ print(trans_log)
 
 
 # plot graph
-plotGraph(df)
+plotGraph(df, testData)
