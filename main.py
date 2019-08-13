@@ -276,6 +276,20 @@ for d_index, d_row in df.loc[testData].iterrows():
     # macd only
     # strat_macd(df, df_next, d_index, d_row)
 
+    # calculate p/l and stop loss
+    for p_index, p_row in portfolio.iterrows():
+        initial_margin = p_row['qty'] * p_row['order_price'] * const.MULTIPLIER * const.INIT_MARGIN
+        price = (d_row['high'] + d_row['low']) / 2
+        if p_row['type'] == 'long':
+            profit = price - p_row['order_price']
+        elif p_row['type'] == 'short':
+            profit = p_row['order_price'] - price
+    
+        net_profit = p_row['qty'] * (profit * const.MULTIPLIER - const.COMMISSION - const.EXCHANGE_FEE - const.SFC_LEVY)
+        stop_loss = -1 * (initial_margin * (1 - const.MAINT_MARGIN)) / 2
+        if net_profit < stop_loss:
+            closePosition(p_index, price, d_row['DATE'])
+
             
         
 print('Available balance:')
@@ -284,7 +298,7 @@ print('Profit:')
 print(ava_bal - const.CAPITAL)
 print('Transaction log:')
 print(trans_log)
-
+trans_log.to_csv('tran.csv')
 
 
 # plot graph
